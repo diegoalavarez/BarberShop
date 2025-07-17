@@ -15,5 +15,8 @@ const path = require('path');
 })();
 
 // Rutas front-end
-app.use('/', express.static(path.resolve('views', 'home')))
+app.use('/', express.static(path.resolve('views', 'home')));
+app.use('/imgs', express.static(path.resolve('imgs')));
+app.use('/components', express.static(path.resolve('views', 'components')));
+
 module.exports = app;

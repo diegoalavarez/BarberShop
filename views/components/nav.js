@@ -31,10 +31,37 @@ const createNavHome = ()=> {
             <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
          </div>
 
+         <!--mobile menu-->
+
+             <div class="bg-slate-600/30 fixed top-16 right-0 left-0 bottom-0 flex justify-center items-center flex-col gap-4 hidden ">
+        <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
+        <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
+    </div>
 
       </div>
         `;
 };
 
+if(window.location.pathname === '/') {
+    createNavHome();
+}
 
-createNavHome();
+
+const navBtn = navbar.children[0].children[1];
+navBtn.addEventListener('click', ()  => {
+    const menuMobile = navbar.children[0].children[3];
+    if(!navBtn.classList.contains('active')) {
+        navBtn.classList.add('active');
+        navBtn.innerHTML = navBtn.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />'
+        menuMobile.classList.remove('hidden');
+        menuMobile.classList.add('flex');
+    } else {
+        navBtn.classList.remove('active');
+        navBtn.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />'
+        menuMobile.classList.remove('flex');
+        menuMobile.classList.add('hidden');
+    }
+    
+
+});
+

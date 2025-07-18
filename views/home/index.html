@@ -7,9 +7,19 @@
     <title>AppBarbershop</title>
   </head>
   <body>
-    <nav id="navbar" class="fixed top-0 left-0 right-0 bg-stone-500 h-16">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 bg-stone-500 h-16"></nav>
 
-    </nav>
+    <div class="pt-16 h-screen flex justify-center items-center flex-col md:flex-row md:w-2/4 px-4 gap-4 mx-auto ]">
+      <h1 class="text-stone-700 font-bold text-4xl md:text-6xl">AppBarbershop</h1>
+      <div class="flex flex-col gap-4 md:text-xl">
+        <p class="text-justify font-bold font-sans text-slate-700">Bienvenido a nuestra barbería, donde tu estilo es nuestra prioridad, a traves de esta app puedes agendar tu cita a la hora que desees y disfrutar de nuestros servicios de calidad.</p>
+        <div class="flex justify-around gap-4 ">
+          <a class="bg-slate-500 py-2 px-4 rounded-lg text-white font-bold hover:bg-slate-600 w-2/4 text-center transition ease-in-out" href="/login/">Login</a>
+          <a class="bg-stone-500 py-2 px-4 rounded-lg text-white font-bold hover:bg-stone-600 w-2/4 text-center transition ease-in-out" href="/signup/">SingUp</a>
+        </div>
+      </div>
+    </div>
+
     <script src="/components/nav.js"></script>
   </body>
 </html>

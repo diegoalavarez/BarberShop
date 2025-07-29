@@ -3,7 +3,7 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt'); // Importa bcrypt para el hash de contraseñas
 const jwt = require('jsonwebtoken'); // Importa jsonwebtoken para manejar tokens JWT
 const nodemailer = require('nodemailer'); // Importa nodemailer para enviar correos electrónicos
-const {PAGE_URL} = require('../confi'); // Importa la URL de la página desde la configuración
+const {PAGE_URL} = require('../config'); // Importa la URL de la página desde la configuración
 
 // Ruta para registrar un nuevo usuario
 usersRouter.post('/', async (request, response) => {

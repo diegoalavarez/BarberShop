@@ -16,55 +16,73 @@
       }
     </style>
   </head>
-  <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-900 text-white min-h-screen relative">
+  <!-- Fondo -->
+  <div class="fixed top-0 left-0 right-0 bottom-0 -z-10 bg-[url('/imgs/fondoBarber.png')] bg-cover bg-center bg-no-repeat"></div>
 
-    <!-- Contenedor del formulario -->
-    <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md relative z-10">
-      <h2 class="text-2xl font-bold mb-4 text-center">📅 Agenda tu cita</h2>
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 bg-stone-500 h-16 flex items-center px-6 z-20 shadow-md">
+    <h1 class="text-white font-bold text-xl tracking-wide">Barbería ProStyle 💈</h1>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="flex items-center justify-center min-h-screen px-6 pt-20">
+    <!-- Formulario -->
+    <div class="bg-gray-800 p-6 rounded-xl shadow-xl w-full max-w-md border border-gray-700 animate-fade-in mr-auto ml-10">
+      <h2 class="text-2xl font-bold mb-6 text-center text-white drop-shadow">📅 Agenda tu cita</h2>
 
       <input
         type="text"
         id="nombre"
         placeholder="Nombre de usuario"
-        class="w-full p-3 rounded-md bg-gray-700 text-white placeholder-gray-400 mb-4"
+        class="w-full p-3 rounded-md bg-gray-300 text-black placeholder-gray-600 mb-4 shadow-inner focus:outline-none focus:ring-2 focus:ring-stone-400 transition-all"
       />
 
-      <select id="corte" class="w-full p-3 rounded-md bg-gray-700 text-white mb-4">
+      <select
+        id="corte"
+        class="w-full p-3 rounded-md bg-white text-black mb-4 shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer"
+      >
         <option value="">Selecciona estilo de corte</option>
-        <option value="Clásico">Clásico</option>
-        <option value="Fade">Fade</option>
-        <option value="Moderno">Moderno</option>
+        <option value="Clásico">✨ Clásico</option>
+        <option value="Fade">🔥 Fade</option>
+        <option value="Moderno">⚡ Moderno</option>
+        <option value="Texturizado">🎨 Texturizado</option>
+        <option value="Pompadour">👑 Pompadour</option>
+        <option value="Buzz Cut">🔰 Buzz Cut</option>
+        <option value="Diseño gráfico">🧊 Diseño gráfico</option>
       </select>
 
-      <select id="hora" class="w-full p-3 rounded-md bg-gray-700 text-white mb-4">
+      <select
+        id="hora"
+        class="w-full p-3 rounded-md bg-white text-black mb-4 shadow-inner focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all cursor-pointer"
+      >
         <option value="">Selecciona hora</option>
+        <!-- Las opciones serán llenadas por JavaScript -->
       </select>
 
       <button
         id="botonAgendar"
-        class="w-full py-3 bg-stone-300 text-black font-semibold rounded-md hover:bg-stone-400 transition"
+        class="w-full py-3 bg-gradient-to-r from-stone-400 to-stone-500 text-black font-bold rounded-lg hover:scale-105 transition-all duration-300 shadow-md"
       >
-        Agendar
+        ✍️ Agendar
       </button>
 
-      <div id="tarjeta" class="mt-6 hidden p-4 bg-stone-800 rounded-md text-white">
-        <!-- Contenido generado desde JS -->
-      </div>
+      <div id="tarjeta" class="mt-6 hidden p-4 bg-gray-700 rounded-md text-white border border-stone-500"></div>
     </div>
+  </div>
 
-    <!-- Overlay flotante de confirmación -->
-    <div id="overlayConfirmacion" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
-      <div class="bg-white text-black p-6 rounded-xl max-w-md w-full text-center shadow-lg animate-fade-in">
-        <h2 class="text-2xl font-bold mb-4">✅ ¡Cita Agendada!</h2>
-        <div id="infoConfirmacion" class="text-left mb-4"></div>
-        <p class="font-semibold text-green-700">Tu cita ha sido agendada exitosamente.</p>
-        <button onclick="cerrarConfirmacion()" class="mt-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition">
-          Cerrar
-        </button>
-      </div>
+  <!-- Overlay confirmación -->
+  <div id="overlayConfirmacion" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="bg-white text-black p-6 rounded-xl max-w-md w-full text-center shadow-lg animate-fade-in border border-stone-500">
+      <h2 class="text-2xl font-bold mb-4">✅ ¡Cita Agendada!</h2>
+      <div id="infoConfirmacion" class="text-left mb-4 font-mono text-sm"></div>
+      <p class="font-semibold text-green-700">Tu cita ha sido agendada exitosamente.</p>
+      <button onclick="cerrarConfirmacion()" class="mt-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition">
+        Cerrar
+      </button>
     </div>
+  </div>
 
-    <!-- JavaScript externo (asegúrate de que esté en la ruta correcta) -->
-    <script src="/schedule.js/"></script>
-  </body>
+  <script src="/schedule.js"></script>
+</body>
 </html>

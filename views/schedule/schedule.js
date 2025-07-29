@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   llenarHorario();
 
+  window.addEventListener("load", () => {
+  llenarHorario();
+});
+
+
   const boton = document.getElementById("botonAgendar");
   if (boton) boton.addEventListener("click", agendar);
 });

@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const morgan = require('morgan');
 const mongoose = require('mongoose');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
@@ -29,9 +32,13 @@ app.use('/haircuts', express.static(path.resolve('views', 'haircuts')));
 app.use('/schedule', express.static(path.resolve('views', 'schedule')));
 app.use('/options', express.static(path.resolve('views', 'options')));
 
+// Middlewares para parsear el body (deben ir antes de las rutas)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Rutas Backend
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
+
 
 module.exports = app;

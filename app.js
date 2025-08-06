@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
+const appointmentsRouter = require('./routes/appointments');
+const logoutRouter = require('./routes/logout');
 const { MONGO_URI_TEST} = require('./config'); // Importar la URI de conexión a MongoDB desde el archivo de configuración
 
 (async () => {
@@ -36,9 +38,16 @@ app.use('/options', express.static(path.resolve('views', 'options')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors({
+  origin: 'http://localhost:3000', // o el dominio de tu frontend
+  credentials: true
+}));
+
 //Rutas Backend
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/appointments', appointmentsRouter);
+app.use('/api/logout', logoutRouter);
 
 
 module.exports = app;

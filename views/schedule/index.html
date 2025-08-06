@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agendar Cita Barbería</title>
-    <script src="/schedule/index.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       .animate-fade-in {
@@ -39,7 +38,7 @@
       />
 
       <select
-        id="corte"
+        id="corte" 
         class="w-full p-3 rounded-md bg-white text-black mb-4 shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all cursor-pointer"
       >
         <option value="">Selecciona estilo de corte</option>
@@ -52,10 +51,7 @@
         <option value="Diseño gráfico">🧊 Diseño gráfico</option>
       </select>
 
-      <select
-        id="hora"
-        class="w-full p-3 rounded-md bg-white text-black mb-4 shadow-inner focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all cursor-pointer"
-      >
+      <select id="hora" class="w-full p-3 rounded-md bg-white text-black mb-4 shadow-inner focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all cursor-pointer">
         <option value="">Selecciona hora</option>
         <!-- Las opciones serán llenadas por JavaScript -->
       </select>
@@ -83,6 +79,9 @@
     </div>
   </div>
 
-  <script src="/schedule.js" defer></script>
+  <div id="mensajeCita"></div>
+  <div id="listaCitas"></div>
+
+  <script src="/schedule/schedule.js"></script>
 </body>
 </html>

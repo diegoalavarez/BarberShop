@@ -2,12 +2,8 @@ const navbar = document.querySelector("#navbar");
 
 const createNavHome = ()=> {
     navbar.innerHTML = `
-          <div
-        class="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between" 
-      >
-      <img src="/imgs/LogoBarber.png" alt="logo" class="h-14" />
-
-
+      <div class="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between">
+        <img src="/imgs/LogoBarber.png" alt="logo" class="h-14" />
         <!-- version mobile -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +12,6 @@ const createNavHome = ()=> {
           stroke-width="1.5"
           stroke="currentColor"
           class="size-6 md:hidden text-white cursor-pointer p-0.25 hover:bg-stone-600 rounded-lg"
-          
         >
           <path
             stroke-linecap="round"
@@ -24,32 +19,24 @@ const createNavHome = ()=> {
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
           />
         </svg>
-
         <!-- version desktop -->
-         <div class="hidden md:flex flex-row gap-4">
-            <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
-            <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
-         </div>
-
-         <!--mobile menu-->
-
-             <div class="bg-slate-600/30 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-4 hidden ">
-        <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
-        <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
-    </div>
-
+        <div class="hidden md:flex flex-row gap-4">
+          <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
+          <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
+        </div>
+        <!--mobile menu-->
+        <div class="bg-slate-600/30 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-4 hidden ">
+          <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
+          <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
+        </div>
       </div>
-        `;
+    `;
 };
 
 const createNavSignup = ()=> {
     navbar.innerHTML = `
-          <div
-        class="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between" 
-      >
-      <img src="/imgs/LogoBarber.png" alt="logo" class="h-16" />
-
-
+      <div class="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between">
+        <img src="/imgs/LogoBarber.png" alt="logo" class="h-16" />
         <!-- version mobile -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +45,6 @@ const createNavSignup = ()=> {
           stroke-width="1.5"
           stroke="currentColor"
           class="size-6 md:hidden text-white cursor-pointer p-0.25 hover:bg-stone-600 rounded-lg"
-          
         >
           <path
             stroke-linecap="round"
@@ -66,32 +52,24 @@ const createNavSignup = ()=> {
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
           />
         </svg>
-
         <!-- version desktop -->
-         <div class="hidden md:flex flex-row gap-4">
-            <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
-            <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
-         </div>
-
-         <!--mobile menu-->
-
-             <div class="bg-slate-600/30 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-4 hidden ">
-        <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
-        <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
-    </div>
-
+        <div class="hidden md:flex flex-row gap-4">
+          <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
+          <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
+        </div>
+        <!--mobile menu-->
+        <div class="bg-slate-600/30 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-4 hidden ">
+          <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
+          <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
+        </div>
       </div>
-        `;
+    `;
 };
 
 const createNavLogin = ()=> {
     navbar.innerHTML = `
-          <div
-        class="max-w-7xl h-26 mx-auto flex items-center px-4 justify-between" 
-      >
-      <img src="/imgs/LogoBarber.png" alt="logo" class="h-16" />
-
-
+      <div class="max-w-7xl h-26 mx-auto flex items-center px-4 justify-between">
+        <img src="/imgs/LogoBarber.png" alt="logo" class="h-16" />
         <!-- version mobile -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +78,6 @@ const createNavLogin = ()=> {
           stroke-width="1.5"
           stroke="currentColor"
           class="size-6 md:hidden text-white cursor-pointer p-0.25 hover:bg-stone-600 rounded-lg"
-          
         >
           <path
             stroke-linecap="round"
@@ -108,22 +85,28 @@ const createNavLogin = ()=> {
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
           />
         </svg>
-
         <!-- version desktop -->
-         <div class="hidden md:flex flex-row gap-4">
-            <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
-            <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
-         </div>
-
-         <!--mobile menu-->
-
-             <div class="bg-slate-600/30 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-4 hidden ">
-        <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
-        <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
-    </div>
-
+        <div class="hidden md:flex flex-row gap-4">
+          <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
+          <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
+        </div>
+        <!--mobile menu-->
+        <div class="bg-slate-600/30 fixed top-16 right-0 left-0 bottom-0 justify-center items-center flex-col gap-4 hidden ">
+          <a href="/login/" class="transition ease-in-out text-white font-bold hover:bg-stone-600 py-2 px-4 rounded-lg">Login</a>
+          <a href="/signup/" class="transition ease-in-out text-white font-bold bg-stone-400 hover:bg-stone-600 py-2 px-4 rounded-lg">SignUp</a>
+        </div>
       </div>
-        `;
+    `;
+};
+
+const createNavHaircuts = ()=> {
+    navbar.innerHTML = `
+      <div class="fixed top-0 left-0 right-0 bg-stone-800 text-white h-16 flex items-center px-8 z-20 shadow-md">
+        <img src="/imgs/LogoBarber.png" alt="Logo Barbería" class="h-12 w-auto" />
+        <!-- Aquí puedes agregar más elementos en el futuro -->
+        <!-- version mobile: puedes agregar un botón aquí si en el futuro quieres menú móvil -->
+      </div>
+    `;
 };
 
 if(window.location.pathname === '/') {
@@ -132,26 +115,30 @@ if(window.location.pathname === '/') {
 else if(window.location.pathname === '/login/') {
     createNavLogin();
 }
-
 else if(window.location.pathname === '/signup/') {
     createNavSignup();
 }
+else if(window.location.pathname === '/haircuts/') {
+    createNavHaircuts();
+}
 
-const navBtn = navbar.children[0].children[1];
-navBtn.addEventListener('click', ()  => {
-    const menuMobile = navbar.children[0].children[3];
-    if(!navBtn.classList.contains('active')) {
-        navBtn.classList.add('active');
-        navBtn.innerHTML = navBtn.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />'
-        menuMobile.classList.remove('hidden');
-        menuMobile.classList.add('flex');
-    } else {
-        navBtn.classList.remove('active');
-        navBtn.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />'
-        menuMobile.classList.remove('flex');
-        menuMobile.classList.add('hidden');
-    }
-    
+// Solo ejecuta el código del botón móvil si existe
+const navBtn = navbar.querySelector('svg');
+const menuMobile = navbar.querySelector('div.bg-slate-600\\/30');
+if(navBtn && menuMobile) {
+    navBtn.addEventListener('click', ()  => {
+        if(!navBtn.classList.contains('active')) {
+            navBtn.classList.add('active');
+            navBtn.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />';
+            menuMobile.classList.remove('hidden');
+            menuMobile.classList.add('flex');
+        } else {
+            navBtn.classList.remove('active');
+            navBtn.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />';
+            menuMobile.classList.remove('flex');
+            menuMobile.classList.add('hidden');
+        }
+    });
+}
 
-});
 

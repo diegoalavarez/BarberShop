@@ -12,7 +12,7 @@ form.addEventListener('submit', async e => {
         password: passwordInput.value
     }
     await axios.post('/api/login', user);
-    window.location.pathname = `/options/`;
+    window.location.pathname = `/haircuts/`;
     }
     catch (error) {
         console.log(error);

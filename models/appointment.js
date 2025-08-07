@@ -4,7 +4,7 @@ const appointmentSchema = new mongoose.Schema({
   nombre: String,
   corte: String,
   hora: String,
-  // Puedes agregar más campos si lo necesitas
+  usuarioId: String
 });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);

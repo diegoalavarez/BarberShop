@@ -11,21 +11,18 @@ const userExtractor = async (request, response, next) => {
     } else if (request.cookies?.accessToken) {
       token = request.cookies.accessToken;
     }
-    console.log('TOKEN RECIBIDO:', token);
     if (!token) {
       return response.status(401).json({ error: 'Token faltante' });
     }
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    console.log('DECODED:', decoded);
     const user = await User.findById(decoded.id);
     if (!user) {
       return response.status(401).json({ error: 'Usuario no encontrado' });
     }
-    request.user = user;
-    request.userId = user._id;
+    // Solo necesitas esto para las rutas protegidas:
+    request.userId = user._id.toString();
     next();
   } catch (error) {
-    console.error('ERROR JWT:', error);
     return response.status(403).json({ error: 'Token inválido' });
   }
 };

@@ -3,7 +3,8 @@ const Appointment = require('../models/appointment');
 exports.createAppointment = async (req, res) => {
   try {
     const { nombre, corte, hora } = req.body;
-    const appointment = new Appointment({ nombre, corte, hora });
+    const usuarioId = req.userId; // Asociar la cita al usuario autenticado
+    const appointment = new Appointment({ nombre, corte, hora, usuarioId });
     await appointment.save();
     res.json({ appointment });
   } catch (error) {
@@ -13,7 +14,8 @@ exports.createAppointment = async (req, res) => {
 
 exports.getAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.find();
+    const usuarioId = req.userId;
+    const appointments = await Appointment.find({ usuarioId }); // Solo citas del usuario
     res.json({ appointments });
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener las citas.' });
@@ -24,8 +26,9 @@ exports.updateAppointment = async (req, res) => {
   try {
     const { id } = req.params;
     const { nombre, corte, hora } = req.body;
-    const appointment = await Appointment.findByIdAndUpdate(
-      id,
+    const usuarioId = req.userId;
+    const appointment = await Appointment.findOneAndUpdate(
+      { _id: id, usuarioId }, // Solo permite editar citas propias
       { nombre, corte, hora },
       { new: true }
     );
@@ -38,9 +41,24 @@ exports.updateAppointment = async (req, res) => {
 exports.deleteAppointment = async (req, res) => {
   try {
     const { id } = req.params;
-    await Appointment.findByIdAndDelete(id);
+    const usuarioId = req.userId;
+    await Appointment.findOneAndDelete({ _id: id, usuarioId }); // Solo permite eliminar citas propias
     res.json({ message: 'Cita eliminada' });
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar la cita.' });
   }
+};
+
+exports.getAvailableHours = async (req, res) => {
+  const citasPendientes = await Appointment.find({ estado: { $ne: 'eliminada' } });
+  const horasReservadas = citasPendientes.map(cita => cita.hora);
+
+  const todasLasHoras = [
+    "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
+    "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
+    "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM"
+  ];
+
+  const horasDisponibles = todasLasHoras.filter(hora => !horasReservadas.includes(hora));
+  res.json({ horas: horasDisponibles });
 };

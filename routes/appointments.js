@@ -6,5 +6,8 @@ router.post('/', appointmentsCtrl.createAppointment);
 router.get('/', appointmentsCtrl.getAppointments);
 router.put('/:id', appointmentsCtrl.updateAppointment);
 router.delete('/:id', appointmentsCtrl.deleteAppointment);
+router.get('/horas-disponibles', appointmentsCtrl.getAvailableHours);
+
+
 
 module.exports = router;

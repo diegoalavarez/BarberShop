@@ -1,24 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
   llenarHorario();
-
-  // Restaura la cita si existe en localStorage
-  const citaGuardada = localStorage.getItem('citaActual');
-  if (citaGuardada) {
-    citaActual = JSON.parse(citaGuardada);
-    mostrarMensajeCitaCRUD(citaActual, "Cita agendada correctamente.");
-    document.getElementById("formCita").classList.add("hidden");
-    document.getElementById("mensajeCita").classList.remove("hidden");
-  }
+  cargarCitasUsuario();
 
   const boton = document.getElementById("botonAgendar");
   if (boton) boton.addEventListener("click", agendar);
 });
 
+async function cargarCitasUsuario() {
+  try {
+    const res = await fetch('/api/appointments', { credentials: 'include' });
+    const data = await res.json();
+    if (data.appointments && data.appointments.length > 0) {
+      // Muestra la última cita (o la que quieras)
+      const cita = data.appointments[data.appointments.length - 1];
+      citaActual = cita;
+      mostrarMensajeCitaCRUD(citaActual, "Cita agendada correctamente.");
+      document.getElementById("formCita").classList.add("hidden");
+      document.getElementById("mensajeCita").classList.remove("hidden");
+    } else {
+      // No hay citas, muestra el formulario
+      document.getElementById("formCita").classList.remove("hidden");
+      document.getElementById("mensajeCita").classList.add("hidden");
+    }
+  } catch (error) {
+    mostrarMensaje("Error al cargar las citas.", false);
+  }
+}
+
 async function llenarHorario() {
   const horaSelect = document.getElementById("hora");
   horaSelect.innerHTML = "";
 
-  const res = await fetch('/api/appointments/horas-disponibles');
+  const res = await fetch('/api/appointments/horas-disponibles', { credentials: 'include' });
   const data = await res.json();
 
   // Opción vacía
@@ -53,14 +66,12 @@ async function agendar() {
     const res = await fetch(`/api/appointments/${citaActual._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, corte, hora })
+      body: JSON.stringify({ nombre, corte, hora }),
+      credentials: 'include'
     });
     const data = await res.json();
     if (data.appointment) {
-      citaActual = data.appointment;
-      mostrarMensajeCitaCRUD(citaActual, "Cita actualizada correctamente.");
-      document.getElementById("formCita").classList.add("hidden");
-      document.getElementById("mensajeCita").classList.remove("hidden");
+      cargarCitasUsuario();
       modoEdicion = false;
       limpiarFormulario();
     } else {
@@ -71,16 +82,14 @@ async function agendar() {
     const res = await fetch('/api/appointments', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, corte, hora })
+      body: JSON.stringify({ nombre, corte, hora }),
+      credentials: 'include'
     });
     const data = await res.json();
 
     if (data.appointment) {
-      citaActual = data.appointment;
-      localStorage.setItem('citaActual', JSON.stringify(citaActual)); // <-- Pega aquí
-      mostrarMensajeCitaCRUD(citaActual, "Cita agendada correctamente.");
-      document.getElementById("formCita").classList.add("hidden");
-      document.getElementById("mensajeCita").classList.remove("hidden");
+      cargarCitasUsuario();
+      limpiarFormulario();
     } else if (data.error) {
       mostrarMensaje(data.error, false);
     }
@@ -114,14 +123,8 @@ function mostrarMensaje(html, esExito) {
 }
 
 function confirmarCita() {
-  mostrarMensaje('<div class="p-4 bg-blue-100 rounded shadow mt-4 text-center">✅ Cita confirmada y guardada.</div>', true);
-  citaActual = null;
-  localStorage.removeItem('citaActual');
-  setTimeout(() => {
-    document.getElementById("formCita").classList.remove("hidden");
-    mostrarMensaje("", true);
-    limpiarFormulario();
-  }, 1500);
+  // Aquí podrías actualizar el estado en la base de datos si lo necesitas
+  cargarCitasUsuario();
 }
 
 function editarCita() {
@@ -136,15 +139,8 @@ function editarCita() {
 
 async function eliminarCita() {
   if (!citaActual || !citaActual._id) return;
-  await fetch(`/api/appointments/${citaActual._id}`, { method: 'DELETE' });
-  mostrarMensaje('<div class="p-4 bg-red-100 rounded shadow mt-4 text-center">Cita eliminada.</div>', false);
-  citaActual = null;
-  localStorage.removeItem('citaActual');
-  setTimeout(() => {
-    document.getElementById("formCita").classList.remove("hidden");
-    document.getElementById("mensajeCita").classList.add("hidden");
-    limpiarFormulario();
-  }, 1500);
+  await fetch(`/api/appointments/${citaActual._id}`, { method: 'DELETE', credentials: 'include' });
+  cargarCitasUsuario();
 }
 
 function limpiarFormulario() {
@@ -152,4 +148,16 @@ function limpiarFormulario() {
   document.getElementById("corte").value = "";
   document.getElementById("hora").value = "";
   modoEdicion = false;
+}
+
+function mostrarOverlayConfirmacion() {
+  const overlay = document.getElementById('overlayConfirmacion');
+  overlay.classList.remove('hidden');
+  overlay.classList.add('flex');
+}
+
+function cerrarConfirmacion() {
+  const overlay = document.getElementById('overlayConfirmacion');
+  overlay.classList.remove('flex');
+  overlay.classList.add('hidden');
 }

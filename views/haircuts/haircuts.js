@@ -19,9 +19,20 @@ profilePicContainer.addEventListener('click', () => {
   profileInput.click();
 });
 
-profileInput.addEventListener('change', (e) => {
+profileInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (file) {
+    const formData = new FormData();
+    formData.append('profilePic', file);
+
+    // Envía la imagen al backend
+    const res = await fetch('/api/users/profile-pic', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    });
+
+    // Actualiza la imagen en el frontend
     const reader = new FileReader();
     reader.onload = function(evt) {
       profilePic.src = evt.target.result;
@@ -39,8 +50,24 @@ if (btnLogout) {
       credentials: 'include'
     });
     // Redirige o limpia el estado del frontend
-    window.location.href = '/login/index.html'; // O la ruta de tu login
+    window.location.href = '/login/'; // O la ruta de tu login
   };
 }
+
+// Al cargar la página, pide los datos del usuario y actualiza la foto de perfil
+async function cargarFotoPerfil() {
+  try {
+    const res = await fetch('/api/users/me', { credentials: 'include' });
+    const user = await res.json();
+    if (user.profilePic) {
+      profilePic.src = user.profilePic;
+    }
+  } catch (error) {
+    console.error('No se pudo cargar la foto de perfil:', error);
+  }
+}
+
+// Llama a la función al iniciar
+cargarFotoPerfil();
 
 // Aquí puedes agregar más funcionalidades JS para otros botones o interacciones

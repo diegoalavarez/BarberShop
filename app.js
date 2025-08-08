@@ -10,11 +10,11 @@ const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const appointmentsRouter = require('./routes/appointments');
 const logoutRouter = require('./routes/logout');
-const { MONGO_URI_TEST} = require('./config'); // Importar la URI de conexión a MongoDB desde el archivo de configuración
+const { MONGO_URI} = require('./config'); // Importar la URI de conexión a MongoDB desde el archivo de configuración
 
 (async () => {
     try {
-        await mongoose.connect(MONGO_URI_TEST)
+        await mongoose.connect(MONGO_URI)
         console.log('Connected to MongoDB');
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);

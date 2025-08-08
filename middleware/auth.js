@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-
-
 const userExtractor = async (request, response, next) => {
   try {
     let token = null;
@@ -15,17 +13,13 @@ const userExtractor = async (request, response, next) => {
       return response.status(401).json({ error: 'Token faltante' });
     }
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    const user = await User.findById(decoded.id);
-    if (!user) {
-      return response.status(401).json({ error: 'Usuario no encontrado' });
-    }
-    // Solo necesitas esto para las rutas protegidas:
-    request.userId = user._id.toString();
+    // decoded.id es el id que pusiste en el token
+    request.userId = decoded.id; // <-- ESTA LÍNEA ES CLAVE
+    console.log('ID extraído del token:', decoded.id); // <-- Agrega este log
     next();
   } catch (error) {
     return response.status(403).json({ error: 'Token inválido' });
   }
 };
-
 
 module.exports = { userExtractor };

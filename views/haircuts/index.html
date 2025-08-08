@@ -6,98 +6,95 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Haircuts</title>
 </head>
-<body class="bg-zinc-50 min-h-screen relative">
+<body class="bg-gradient-to-br from-zinc-100 to-stone-200 min-h-screen relative">
   <!-- Imagen de fondo -->
-  <div class="fixed top-0 left-0 right-0 bottom-0 -z-10 bg-[url('/imgs/fondoBarber.png')] bg-cover bg-center bg-no-repeat"></div>
+  <div class="fixed top-0 left-0 right-0 bottom-0 -z-10 bg-[url('/imgs/fondoBarber.png')] bg-cover bg-center bg-no-repeat opacity-30"></div>
 
   <!-- Navbar dinámica -->
-  <nav id="navbar"></nav>
+  <nav id="navbar" class="w-full fixed top-0 left-0 right-0 z-50"></nav>
   
-  <div class="flex min-h-screen pt-16">
-    <!-- Menú lateral -->
-    <aside class="w-64 bg-stone-700 text-white flex flex-col py-8 px-4 gap-6 shadow-lg items-center">
-      <h2 class="text-2xl font-bold mb-6 text-center">Opciones</h2>
-      <!-- Icono de persona y foto de perfil -->
-      <div class="relative mb-4">
+  <div class="flex flex-col md:flex-row min-h-screen pt-16">
+    <!-- Menú lateral responsive -->
+    <aside class="w-full md:w-72 bg-gradient-to-br from-stone-700 to-stone-900 text-white flex flex-row md:flex-col py-4 md:py-10 px-2 md:px-6 gap-2 md:gap-8 shadow-2xl items-center md:rounded-r-3xl">
+      <h2 class="text-lg md:text-3xl font-extrabold mb-2 md:mb-6 text-center tracking-wide drop-shadow-lg">Opciones</h2>
+      <div class="relative mb-2 md:mb-6">
         <input type="file" id="profile-input" accept="image/*" class="hidden" />
         <div id="profile-pic-container" class="cursor-pointer group">
           <img id="profile-pic" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
             alt="Foto de perfil"
-            class="w-20 h-20 rounded-full border-4 border-stone-500 object-cover transition group-hover:opacity-80"
+            class="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 rounded-full border-4 border-stone-500 object-cover shadow-lg transition group-hover:opacity-80"
           />
-          <div class="absolute bottom-0 right-0 bg-stone-600 rounded-full p-1 border-2 border-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="absolute bottom-2 right-2 bg-stone-600 rounded-full p-2 border-2 border-white shadow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2l-6 6m-2 2h6"/>
             </svg>
           </div>
         </div>
-        <p class="text-xs text-center mt-2 text-stone-300">Toca el icono para cambiar foto</p>
+        <p class="text-xs text-center mt-1 md:mt-3 text-stone-300">Toca el icono para cambiar foto</p>
       </div>
       <button id="btn-schedule"
-        class="w-full py-3 mb-2 bg-stone-500 hover:bg-stone-600 rounded-lg font-semibold transition"
+        class="flex-1 md:w-full py-2 md:py-3 mb-1 md:mb-2 bg-gradient-to-r from-stone-500 to-stone-700 hover:from-stone-600 hover:to-stone-800 rounded-xl font-semibold transition shadow-lg text-xs sm:text-base md:text-lg"
       >
-        Agendar Cita
+        ✍️ Agendar Cita
       </button>
       <button id="btn-whatsapp"
-        class="w-full py-3 mb-2 bg-green-500 hover:bg-green-600 rounded-lg font-semibold transition flex items-center justify-center gap-2"
+        class="flex-1 md:w-full py-2 md:py-3 mb-1 md:mb-2 bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 rounded-xl font-semibold transition flex items-center justify-center gap-2 shadow-lg text-xs sm:text-base md:text-lg"
         aria-label="Contactar por WhatsApp"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.72 11.06a6.5 6.5 0 11-2.72-2.72l2.72 2.72zm0 0l4.28 4.28"/>
         </svg>
         WhatsApp
       </button>
-      <button id="btnLogout" class="w-full py-3 bg-red-500 hover:bg-red-600 rounded-lg font-semibold transition">
-        Cerrar sesión
+      <button id="btnLogout" class="flex-1 md:w-full py-2 md:py-3 bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 rounded-xl font-semibold transition shadow-lg text-xs sm:text-base md:text-lg">
+        🔒 Cerrar sesión
       </button>
-      <!-- Más opciones si deseas -->
     </aside>
 
     <!-- Contenido principal: Tarjetas de cortes -->
-    <div class="flex-1">
-      <!-- Tarjetas -->
-      <main class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-6 p-6">
+    <div class="flex-1 bg-transparent">
+      <main class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-10 p-2 sm:p-4 md:p-10">
         <!-- Card 1 -->
-        <div class="bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-          <img src="/imgs/fadeclasico.jpg" alt="Fade clásico" class="w-full h-48 object-cover">
-          <div class="p-4 flex flex-col justify-between gap-2">
-            <h2 class="text-xl font-bold text-gray-800">Fade Clásico</h2>
-            <p class="text-sm text-gray-600">✔️ limpio · ✔️ versátil · ✔️ bajo mantenimiento</p>
-            <p class="text-lg font-semibold text-stone-600">Bs. 90</p>
-            <a href="/schedule/" class="mt-2 bg-stone-500 text-white py-2 px-4 rounded-lg hover:bg-stone-600 text-center transition">Agendar</a>
+        <div class="bg-white rounded-3xl overflow-hidden shadow-2xl hover:scale-105 hover:shadow-amber-200 transition-all duration-300 border border-stone-200 flex flex-col">
+          <img src="/imgs/fadeclasico.jpg" alt="Fade clásico" class="w-full h-32 sm:h-40 md:h-56 object-cover">
+          <div class="p-3 sm:p-5 md:p-7 flex flex-col justify-between gap-1 sm:gap-2 md:gap-3 flex-1">
+            <h2 class="text-base sm:text-xl md:text-2xl font-extrabold text-gray-800 mb-1">Fade Clásico</h2>
+            <p class="text-xs sm:text-sm md:text-base text-gray-600 mb-2">✔️ limpio · ✔️ versátil · ✔️ bajo mantenimiento</p>
+            <p class="text-sm sm:text-lg md:text-xl font-bold text-amber-600 mb-2">Bs. 90</p>
+            <a href="/schedule/" class="mt-auto bg-gradient-to-r from-amber-400 to-stone-400 text-black py-2 px-2 sm:px-4 md:px-6 rounded-xl hover:from-amber-500 hover:to-stone-500 text-center transition font-semibold shadow-lg border border-stone-400 text-xs sm:text-base">Agendar</a>
           </div>
         </div>
 
         <!-- Card 2 -->
-        <div class="bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-          <img src="/imgs/pompadourfade.jpg" alt="Pompadour moderno" class="w-full h-48 object-cover">
-          <div class="p-4 flex flex-col justify-between gap-2">
-            <h2 class="text-xl font-bold text-gray-800">Pompadour Moderno</h2>
-            <p class="text-sm text-gray-600">✔️ voluminoso · ✔️ elegante · ✔️ perfil marcado</p>
-            <p class="text-lg font-semibold text-stone-600">Bs. 110</p>
-            <a href="/schedule/" class="mt-2 bg-stone-500 text-white py-2 px-4 rounded-lg hover:bg-stone-600 text-center transition">Agendar</a>
+        <div class="bg-white rounded-3xl overflow-hidden shadow-2xl hover:scale-105 hover:shadow-amber-200 transition-all duration-300 border border-stone-200 flex flex-col">
+          <img src="/imgs/pompadourfade.jpg" alt="Pompadour moderno" class="w-full h-32 sm:h-40 md:h-56 object-cover">
+          <div class="p-3 sm:p-5 md:p-7 flex flex-col justify-between gap-1 sm:gap-2 md:gap-3 flex-1">
+            <h2 class="text-base sm:text-xl md:text-2xl font-extrabold text-gray-800 mb-1">Pompadour Moderno</h2>
+            <p class="text-xs sm:text-sm md:text-base text-gray-600 mb-2">✔️ voluminoso · ✔️ elegante · ✔️ perfil marcado</p>
+            <p class="text-sm sm:text-lg md:text-xl font-bold text-amber-600 mb-2">Bs. 110</p>
+            <a href="/schedule/" class="mt-auto bg-gradient-to-r from-amber-400 to-stone-400 text-black py-2 px-2 sm:px-4 md:px-6 rounded-xl hover:from-amber-500 hover:to-stone-500 text-center transition font-semibold shadow-lg border border-stone-400 text-xs sm:text-base">Agendar</a>
           </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-          <img src="/imgs/texturizadodiseno.jpg" alt="Texturizado + Diseño" class="w-full h-48 object-cover">
-          <div class="p-4 flex flex-col justify-between gap-2">
-            <h2 class="text-xl font-bold text-gray-800">Texturizado + Diseño</h2>
-            <p class="text-sm text-gray-600">✔️ artístico · ✔️ juvenil · ✔️ personalizado</p>
-            <p class="text-lg font-semibold text-stone-600">Bs. 130</p>
-            <a href="/schedule/" class="mt-2 bg-stone-500 text-white py-2 px-4 rounded-lg hover:bg-stone-600 text-center transition">Agendar</a>
+        <div class="bg-white rounded-3xl overflow-hidden shadow-2xl hover:scale-105 hover:shadow-amber-200 transition-all duration-300 border border-stone-200 flex flex-col">
+          <img src="/imgs/texturizadodiseno.jpg" alt="Texturizado + Diseño" class="w-full h-32 sm:h-40 md:h-56 object-cover">
+          <div class="p-3 sm:p-5 md:p-7 flex flex-col justify-between gap-1 sm:gap-2 md:gap-3 flex-1">
+            <h2 class="text-base sm:text-xl md:text-2xl font-extrabold text-gray-800 mb-1">Texturizado + Diseño</h2>
+            <p class="text-xs sm:text-sm md:text-base text-gray-600 mb-2">✔️ artístico · ✔️ juvenil · ✔️ personalizado</p>
+            <p class="text-sm sm:text-lg md:text-xl font-bold text-amber-600 mb-2">Bs. 130</p>
+            <a href="/schedule/" class="mt-auto bg-gradient-to-r from-amber-400 to-stone-400 text-black py-2 px-2 sm:px-4 md:px-6 rounded-xl hover:from-amber-500 hover:to-stone-500 text-center transition font-semibold shadow-lg border border-stone-400 text-xs sm:text-base">Agendar</a>
           </div>
         </div>
 
         <!-- Card 4 -->
-        <div class="bg-white rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300">
-          <img src="/imgs/buzcutt.jpg" alt="Buzz Cut perfilado" class="w-full h-48 object-cover">
-          <div class="p-4 flex flex-col justify-between gap-2">
-            <h2 class="text-xl font-bold text-gray-800">Buzz Cut Perfilado</h2>
-            <p class="text-sm text-gray-600">✔️ militar · ✔️ práctico · ✔️ perfilado limpio</p>
-            <p class="text-lg font-semibold text-stone-600">Bs. 85</p>
-            <a href="/schedule/" class="mt-2 bg-stone-500 text-white py-2 px-4 rounded-lg hover:bg-stone-600 text-center transition">Agendar</a>
+        <div class="bg-white rounded-3xl overflow-hidden shadow-2xl hover:scale-105 hover:shadow-amber-200 transition-all duration-300 border border-stone-200 flex flex-col">
+          <img src="/imgs/buzcutt.jpg" alt="Buzz Cut perfilado" class="w-full h-32 sm:h-40 md:h-56 object-cover">
+          <div class="p-3 sm:p-5 md:p-7 flex flex-col justify-between gap-1 sm:gap-2 md:gap-3 flex-1">
+            <h2 class="text-base sm:text-xl md:text-2xl font-extrabold text-gray-800 mb-1">Buzz Cut Perfilado</h2>
+            <p class="text-xs sm:text-sm md:text-base text-gray-600 mb-2">✔️ militar · ✔️ práctico · ✔️ perfilado limpio</p>
+            <p class="text-sm sm:text-lg md:text-xl font-bold text-amber-600 mb-2">Bs. 85</p>
+            <a href="/schedule/" class="mt-auto bg-gradient-to-r from-amber-400 to-stone-400 text-black py-2 px-2 sm:px-4 md:px-6 rounded-xl hover:from-amber-500 hover:to-stone-500 text-center transition font-semibold shadow-lg border border-stone-400 text-xs sm:text-base">Agendar</a>
           </div>
         </div>
       </main>

@@ -1,58 +1,64 @@
+const express = require('express');
+const appointmentsRouter = express.Router();
 const Appointment = require('../models/appointment');
+const { userExtractor } = require('../middleware/auth');
 
-exports.getAppointments = async (req, res) => {
+// Obtener citas del usuario autenticado
+appointmentsRouter.get('/', userExtractor, async (req, res) => {
   try {
-    console.log('Usuario autenticado:', req.userId); // <-- Agrega esto
     const appointments = await Appointment.find({ usuarioId: req.userId });
-    console.log('Citas encontradas:', appointments); // <-- Y esto
     res.json({ appointments });
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener las citas.' });
   }
-};
+});
 
-exports.createAppointment = async (req, res) => {
+// Crear cita
+appointmentsRouter.post('/', userExtractor, async (req, res) => {
   try {
     const { nombre, corte, hora } = req.body;
-    const usuarioId = req.userId; // El id del usuario autenticado
-    const appointment = new Appointment({ nombre, corte, hora, usuarioId });
+    const usuarioId = req.userId;
+    const appointment = new Appointment({ nombre, corte, hora, usuarioId, estado: 'pendiente' });
     await appointment.save();
     res.json({ appointment });
   } catch (error) {
     res.status(500).json({ error: 'Error al crear la cita.' });
   }
-};
+});
 
-
-
-exports.updateAppointment = async (req, res) => {
+// Actualizar cita
+appointmentsRouter.put('/:id', userExtractor, async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, corte, hora } = req.body;
+    const { nombre, corte, hora, estado } = req.body;
     const usuarioId = req.userId;
+    const updateFields = { nombre, corte, hora };
+    if (estado) updateFields.estado = estado;
     const appointment = await Appointment.findOneAndUpdate(
-      { _id: id, usuarioId }, // Solo permite editar citas propias
-      { nombre, corte, hora },
+      { _id: id, usuarioId },
+      updateFields,
       { new: true }
     );
     res.json({ appointment });
   } catch (error) {
     res.status(500).json({ error: 'Error al actualizar la cita.' });
   }
-};
+});
 
-exports.deleteAppointment = async (req, res) => {
+// Eliminar cita
+appointmentsRouter.delete('/:id', userExtractor, async (req, res) => {
   try {
     const { id } = req.params;
     const usuarioId = req.userId;
-    await Appointment.findOneAndDelete({ _id: id, usuarioId }); // Solo permite eliminar citas propias
+    await Appointment.findOneAndUpdate({ _id: id, usuarioId }, { estado: 'eliminada' });
     res.json({ message: 'Cita eliminada' });
   } catch (error) {
     res.status(500).json({ error: 'Error al eliminar la cita.' });
   }
-};
+});
 
-exports.getAvailableHours = async (req, res) => {
+// Horas disponibles
+appointmentsRouter.get('/available-hours', userExtractor, async (req, res) => {
   try {
     const citasPendientes = await Appointment.find({ estado: { $ne: 'eliminada' } });
     const horasReservadas = citasPendientes.map(cita => cita.hora);
@@ -68,4 +74,6 @@ exports.getAvailableHours = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener las horas disponibles.' });
   }
-};
+});
+
+module.exports = appointmentsRouter;

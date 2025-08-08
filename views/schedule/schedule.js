@@ -1,3 +1,19 @@
+// ...existing code...
+
+// Limpia los campos del formulario de cita
+function limpiarFormulario() {
+  document.getElementById("nombre").value = "";
+  document.getElementById("corte").value = "";
+  document.getElementById("hora").value = "";
+  modoEdicion = false;
+}
+
+// Muestra un mensaje de error o éxito en el div correspondiente
+function mostrarMensaje(mensaje, esExito) {
+  const mensajeDiv = document.getElementById("mensajeCita");
+  mensajeDiv.innerHTML = mensaje;
+  mensajeDiv.style.color = esExito ? "green" : "red";
+}
 document.addEventListener("DOMContentLoaded", () => {
   llenarHorario();
   cargarCitasUsuario();
@@ -11,12 +27,22 @@ async function cargarCitasUsuario() {
     const res = await fetch('/api/appointments', { credentials: 'include' });
     const data = await res.json();
     if (data.appointments && data.appointments.length > 0) {
-      // Muestra la última cita (o la que quieras)
-      const cita = data.appointments[data.appointments.length - 1];
-      citaActual = cita;
-      mostrarMensajeCitaCRUD(citaActual, "Cita agendada correctamente.");
-      document.getElementById("formCita").classList.add("hidden");
-      document.getElementById("mensajeCita").classList.remove("hidden");
+      // Busca la última cita no eliminada (pendiente o confirmada)
+      const citaMostrada = data.appointments.filter(c => c.estado !== 'eliminada').pop();
+      if (citaMostrada) {
+        citaActual = citaMostrada;
+        let mensaje = citaActual.estado === 'pendiente' ? "Cita agendada correctamente." : "Cita confirmada";
+        // Asegura que el overlay esté visible y no tenga la clase 'hidden'
+        const overlay = document.getElementById('overlayConfirmacion');
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+        mostrarOverlayCRUD(citaActual, mensaje);
+        document.getElementById("formCita").classList.add("hidden");
+        document.getElementById("mensajeCita").classList.remove("hidden");
+      } else {
+        document.getElementById("formCita").classList.remove("hidden");
+        document.getElementById("mensajeCita").classList.add("hidden");
+      }
     } else {
       // No hay citas, muestra el formulario
       document.getElementById("formCita").classList.remove("hidden");
@@ -31,7 +57,13 @@ async function llenarHorario() {
   const horaSelect = document.getElementById("hora");
   horaSelect.innerHTML = "";
 
-  const res = await fetch('/api/appointments/horas-disponibles', { credentials: 'include' });
+  const res = await fetch('/api/appointments/available-hours', { credentials: 'include' });
+
+  if (!res.ok) {
+    mostrarMensaje("No autorizado para ver las horas disponibles.", false);
+    return;
+  }
+
   const data = await res.json();
 
   // Opción vacía
@@ -40,17 +72,19 @@ async function llenarHorario() {
   optVacio.textContent = "Selecciona hora";
   horaSelect.appendChild(optVacio);
 
-  data.horas.forEach(hora => {
-    const opt = document.createElement("option");
-    opt.value = hora;
-    opt.textContent = hora;
-    horaSelect.appendChild(opt);
-  });
+  if (data.horas && Array.isArray(data.horas)) {
+    data.horas.forEach(hora => {
+      const opt = document.createElement("option");
+      opt.value = hora;
+      opt.textContent = hora;
+      horaSelect.appendChild(opt);
+    });
+  }
 }
 
 let citaActual = null;
 let modoEdicion = false;
-
+ 
 async function agendar() {
   const nombre = document.getElementById("nombre").value.trim();
   const corte = document.getElementById("corte").value;
@@ -83,80 +117,41 @@ async function agendar() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nombre, corte, hora }),
-      credentials: 'include'
+      credentials: 'include' // si usas cookies
     });
     const data = await res.json();
 
     if (data.appointment) {
-      cargarCitasUsuario();
+      // Mostrar el overlay CRUD para la cita recién agendada
+      citaActual = data.appointment;
+      mostrarOverlayCRUD(citaActual, "¡Cita agendada!");
       limpiarFormulario();
+      // No refrescar la lista de citas aquí, solo mostrar el overlay
     } else if (data.error) {
       mostrarMensaje(data.error, false);
     }
   }
 }
 
-function mostrarMensajeCitaCRUD(cita, mensaje) {
-  mostrarMensaje(`
-    <div class="p-4 bg-green-100 rounded shadow mt-4">
-      <h3 class="text-xl font-bold mb-2">✅ ${mensaje}</h3>
-      <p><strong>Usuario:</strong> ${cita.nombre}</p>
-      <p><strong>Estilo de corte:</strong> ${cita.corte}</p>
-      <p><strong>Hora seleccionada:</strong> ${cita.hora}</p>
-      <div class="mt-4 flex gap-2 justify-center">
-        <button id="btnConfirmar" class="bg-green-600 text-white px-4 py-2 rounded">Confirmar cita</button>
-        <button id="btnEditar" class="bg-yellow-500 text-white px-4 py-2 rounded">Editar cita</button>
-        <button id="btnEliminar" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar cita</button>
-      </div>
-    </div>
-  `, true);
-
-  document.getElementById("btnConfirmar").onclick = confirmarCita;
-  document.getElementById("btnEditar").onclick = editarCita;
-  document.getElementById("btnEliminar").onclick = eliminarCita;
-}
-
-function mostrarMensaje(html, esExito) {
-  const mensajeDiv = document.getElementById("mensajeCita");
-  mensajeDiv.innerHTML = html;
-  mensajeDiv.style.color = esExito ? "green" : "red";
-}
-
-function confirmarCita() {
-  // Aquí podrías actualizar el estado en la base de datos si lo necesitas
-  cargarCitasUsuario();
-}
-
-function editarCita() {
-  if (!citaActual) return;
-  document.getElementById("nombre").value = citaActual.nombre;
-  document.getElementById("corte").value = citaActual.corte;
-  document.getElementById("hora").value = citaActual.hora;
-  document.getElementById("formCita").classList.remove("hidden");
-  document.getElementById("mensajeCita").classList.add("hidden");
-  modoEdicion = true;
-}
-
-async function eliminarCita() {
-  if (!citaActual || !citaActual._id) return;
-  await fetch(`/api/appointments/${citaActual._id}`, { method: 'DELETE', credentials: 'include' });
-  cargarCitasUsuario();
-}
-
-function limpiarFormulario() {
-  document.getElementById("nombre").value = "";
-  document.getElementById("corte").value = "";
-  document.getElementById("hora").value = "";
-  modoEdicion = false;
-}
-
-function mostrarOverlayConfirmacion() {
+// Muestra el CRUD en el overlay de confirmación
+function mostrarOverlayCRUD(cita, mensaje) {
   const overlay = document.getElementById('overlayConfirmacion');
   overlay.classList.remove('hidden');
   overlay.classList.add('flex');
+  // Actualiza el contenido dinámico
+  document.querySelector('#overlayConfirmacion h2').textContent = `✅ ${mensaje}`;
+  document.getElementById('infoConfirmacion').innerHTML = `
+    <p><strong>Usuario:</strong> ${cita.nombre}</p>
+    <p><strong>Estilo de corte:</strong> ${cita.corte}</p>
+    <p><strong>Hora seleccionada:</strong> ${cita.hora}</p>
+  `;
+  // Conectar botones
+  document.getElementById('btnConfirmar').onclick = () => { confirmarCita(); };
+  document.getElementById('btnEditar').onclick = () => { editarCita(); };
+  document.getElementById('btnEliminar').onclick = () => { eliminarCita(); cerrarOverlay(); };
 }
 
-function cerrarConfirmacion() {
+function cerrarOverlay() {
   const overlay = document.getElementById('overlayConfirmacion');
   overlay.classList.remove('flex');
   overlay.classList.add('hidden');

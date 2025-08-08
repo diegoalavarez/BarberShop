@@ -8,8 +8,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
-const appointmentsRouter = require('./routes/appointments');
-const logoutRouter = require('./routes/logout');
+const appointmentsRouter = require('./controllers/appointments');
+const logoutRouter = require('./controllers/logout');
 const { MONGO_URI} = require('./config'); // Importar la URI de conexión a MongoDB desde el archivo de configuración
 
 (async () => {
@@ -37,6 +37,7 @@ app.use('/options', express.static(path.resolve('views', 'options')));
 // Middlewares para parsear el body (deben ir antes de las rutas)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(cors({
   origin: 'http://localhost:3000', // o el dominio de tu frontend

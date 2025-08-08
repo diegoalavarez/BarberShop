@@ -13,13 +13,8 @@ const userSchema = new mongoose.Schema({
     appointments: [{
         type: mongoose.Schema.Types.ObjectId, // Almacena el ID del usuario que creó el todo
         ref: 'Appointment' // Referencia al modelo Appointment
-        }],
-
-    profilePic: {
-        type: String,
-        default: 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-      }
-    })
+    }]
+})
 
 // Configura cómo se transforman los documentos al convertirlos a JSON
 userSchema.set('toJSON', {

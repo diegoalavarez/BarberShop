@@ -58,6 +58,10 @@ if (btnLogout) {
 async function cargarFotoPerfil() {
   try {
     const res = await fetch('/api/users/me', { credentials: 'include' });
+    console.log('Cookies en haircuts.js:', document.cookie); // <-- LOG
+    if (!res.ok) {
+      throw new Error('No autorizado');
+    }
     const user = await res.json();
     if (user.profilePic) {
       profilePic.src = user.profilePic;
@@ -69,5 +73,20 @@ async function cargarFotoPerfil() {
 
 // Llama a la función al iniciar
 cargarFotoPerfil();
+
+async function verificarSesion() {
+  try {
+    const res = await fetch('/api/users/me', { credentials: 'include' });
+    if (res.ok) {
+      const data = await res.json();
+      document.body.insertAdjacentHTML('afterbegin', `<div style="position:fixed;top:0;left:0;width:100%;background:green;color:white;padding:8px;z-index:9999;text-align:center;">Sesión activa: ${data.user.name || data.user.email}</div>`);
+    } else {
+      document.body.insertAdjacentHTML('afterbegin', `<div style="position:fixed;top:0;left:0;width:100%;background:red;color:white;padding:8px;z-index:9999;text-align:center;">No hay sesión activa</div>`);
+    }
+  } catch (e) {
+    document.body.insertAdjacentHTML('afterbegin', `<div style="position:fixed;top:0;left:0;width:100%;background:red;color:white;padding:8px;z-index:9999;text-align:center;">Error de conexión</div>`);
+  }
+}
+verificarSesion();
 
 // Aquí puedes agregar más funcionalidades JS para otros botones o interacciones

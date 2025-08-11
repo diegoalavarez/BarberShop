@@ -31,8 +31,9 @@ loginRouter.post('/', async (request, response) => {
 
     response.cookie('accessToken', accessToken, {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true
+        secure: false, // para desarrollo local
+        httpOnly: true,
+        sameSite: 'lax' // permite compartir entre rutas en localhost
     });
 
     return response.status(200).json({ success: true });

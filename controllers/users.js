@@ -131,4 +131,18 @@ usersRouter.patch('/:id/:token', async (request, response) => {
 
 });
 
+// Ruta para obtener el usuario autenticado
+usersRouter.get('/me', async (req, res) => {
+  try {
+    // Debes tener un middleware que extraiga el userId del token/cookie
+    const userId = req.userId;
+    if (!userId) return res.status(401).json({ error: 'No autenticado' });
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+    res.json({ user });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener el usuario' });
+  }
+});
+
 module.exports = usersRouter;

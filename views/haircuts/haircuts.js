@@ -49,8 +49,8 @@ if (btnLogout) {
       method: 'GET',
       credentials: 'include'
     });
-    // Redirige o limpia el estado del frontend
-    window.location.href = '/login/'; // O la ruta de tu login
+    // Redirige a la vista de login después de cerrar sesión
+    window.location.href = '/login';
   };
 }
 

@@ -52,7 +52,18 @@ async function cargarDatosUsuario() {
 }
 
 cargarDatosUsuario();
-
+      // Botón cerrar sesión
+      const btnLogout = document.getElementById('btnLogout');
+      if (btnLogout) {
+        btnLogout.addEventListener('click', async () => {
+          try {
+            await fetch('/api/logout', { method: 'GET', credentials: 'include' });
+            window.location.href = '/login/';
+          } catch (error) {
+            alert('Error al cerrar sesión');
+          }
+        });
+      }
 async function verificarSesion() {
   try {
     const res = await fetch('/api/users/me', { credentials: 'include' });

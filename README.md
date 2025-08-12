@@ -66,7 +66,6 @@ Barbershop-Proyects/
 │   ├── signup/
 │   ├── haircuts/
 │   ├── schedule/
-│   ├── admin/
 │   └── components/
 └── imgs/
 ```

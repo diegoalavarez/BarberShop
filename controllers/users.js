@@ -131,8 +131,10 @@ usersRouter.patch('/:id/:token', async (request, response) => {
 
 });
 
+const { userExtractor } = require('../middleware/auth');
+
 // Ruta para obtener el usuario autenticado
-usersRouter.get('/me', async (req, res) => {
+usersRouter.get('/me', userExtractor, async (req, res) => {
   try {
     // Debes tener un middleware que extraiga el userId del token/cookie
     const userId = req.userId;
